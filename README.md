@@ -45,9 +45,9 @@ sudo chmod +x entrypoint.sh
 docker-compose --profile dev up
 ```
 ## Run tests
-'''
+```
 poetry run pytest
-'''
+```
 ## To Run it on localhost without Docker
 Run the database migrations
 ```bash
