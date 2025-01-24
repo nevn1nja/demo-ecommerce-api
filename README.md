@@ -35,6 +35,10 @@ DEBUG=True
 If you wish to use the database created by docker compose, keep the `POSTGRES_HOST=db` param as is. 
 
 To run the project in local:
+Ensure entrypoint.sh has execution permission.
+```bash
+sudo chmod +x entrypoint.sh
+```
 ```bash
 docker-compose --profile dev up
 ```
