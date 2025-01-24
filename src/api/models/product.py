@@ -5,6 +5,8 @@ from pydantic import BaseModel, Field
 
 from src.api.models.pagination_metadata import PaginationMetadata
 
+class ProductId(BaseModel):
+    id: int = Field(..., description="Unique identifier for the product")
 
 class ProductRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=255, description="The name of the product")
@@ -13,8 +15,7 @@ class ProductRequest(BaseModel):
     stock: int = Field(..., ge=0, description="The stock quantity, must be zero or a positive integer")
 
 
-class Product(ProductRequest):
-    id: int = Field(..., description="Unique identifier for the product")
+class Product(ProductRequest, ProductId):
     created_at: datetime = Field(..., description="Timestamp denoting when the product was created")
     updated_at: Optional[datetime] = Field(..., description="Timestamp denoting when the product was last updated")
 
