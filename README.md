@@ -1,8 +1,6 @@
-<p align=center style="font-size:3vw;">
-  <b>Ecommerce REST API demo</b><br>
- </p>
+# Ecommerce REST API demo
 
-# Quick Start 🚀
+## Quick Start 🚀
 
 For development setup:
 - [Python](https://www.python.org/downloads/) 3.12.1 or higher
@@ -42,7 +40,7 @@ docker-compose --profile dev up
 ```
 
 ## To Run it on localhost without Docker
-
+Run the database migrations
 ```bash
 poetry shell
 alembic upgrade head
