@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "demo-ecommerce-api"
+version = "0.1.0"
+description = "Restful API for a simple ecommerce platform."
+authors = ["Nevil Macwan <nevil.macwan86@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.7"
+uvicorn = "^0.34.0"
+sqlalchemy = "^2.0.37"
+databases = {extras = ["postgresql"], version = "^0.9.0"}
+alembic = "^1.14.1"
+python-dotenv = "^1.0.1"
+pydantic-settings = "^2.7.1"
+psycopg2-binary = "^2.9.10"
+python-multipart = "^0.0.20"
+pytest = "^8.3.4"
+httpx = "^0.28.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
