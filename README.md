@@ -44,7 +44,7 @@ sudo chmod +x entrypoint.sh
 ```bash
 docker-compose --profile dev up
 ```
-## Run teats
+## Run tests
 '''
 poetry run pytest
 '''
