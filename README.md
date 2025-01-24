@@ -6,6 +6,8 @@ For development setup:
 - [Python](https://www.python.org/downloads/) 3.12.1 or higher
 - [Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer) 1.7.1 or higher
 
+This project uses [SQLAlchemy](http://sqlalche.me) and [Alembic](https://alembic.sqlalchemy.org) for databases.
+
 
 To build and run the application:
 - [Docker](https://www.docker.com/products/docker-desktop/) latest version
