@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 
 from src.api.models.order import Order, OrderRequest
@@ -10,8 +10,8 @@ orders_router = APIRouter()
 
 
 @orders_router.post("/orders/", response_model=Order)
-async def create_new_order(order_create: OrderRequest, db: Session = Depends(get_db)):
+async def create_new_order(order_create: OrderRequest, response: Response, db: Session = Depends(get_db)):
     logger.info(f"Creating new order with {len(order_create.items)} items")
     order = create_order(db=db, order_data=order_create)
-
+    response.status_code = 201
     return order
