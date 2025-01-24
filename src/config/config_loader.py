@@ -26,14 +26,3 @@ class Settings(BaseSettings):
                 f"@{self.postgres_host}:{self.postgres_port}/{self.postgres_db}")
 
     debug: bool = False
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
-
-
-if __name__ == "__main__":
-    settings1 = Settings()
-    settings2 = Settings()
-    assert settings1 is settings2
-    print(settings1)

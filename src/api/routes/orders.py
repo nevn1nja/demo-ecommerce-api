@@ -12,6 +12,5 @@ orders_router = APIRouter()
 @orders_router.post("/orders/", response_model=Order)
 async def create_new_order(order_create: OrderRequest, response: Response, db: Session = Depends(get_db)):
     logger.info(f"Creating new order with {len(order_create.items)} items")
-    order = create_order(db=db, order_data=order_create)
     response.status_code = 201
-    return order
+    return create_order(db=db, order_data=order_create)

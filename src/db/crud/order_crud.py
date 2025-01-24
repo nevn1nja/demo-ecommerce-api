@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from src.api.models.order import OrderRequest
 from src.db.crud.product_crud import get_product_by_id
 from src.db.models.database_models import Order, OrderItem, OrderStatus
-from src.utils.exception_handlers import InsufficientStockException, OrderCreationException
+from src.utils.exception_handlers import InsufficientStockException, OrderCreationException, ProductIdException
 from src.utils.logger import logger
 
 
@@ -13,10 +13,14 @@ def create_order(db: Session, order_data: OrderRequest) -> Order:
         total_price = 0.0
         for item in order_data.items:
             product = get_product_by_id(db, item.product_id)
+            if product is None:
+                raise ProductIdException(f"Product ID '{item.product_id}' not found.")
+
             logger.info(f"Product ID: {product.id}, Stock: {product.stock}, Price: {product.price}, Item: {item}")
 
             if not product or product.stock < item.quantity:
-                raise InsufficientStockException(f"Insufficient stock for product ID {item.product_id}")
+                raise InsufficientStockException(
+                    f"Insufficient stock for product ID {item.product_id}, requested {item.quantity}, available {product.stock}.")
             total_price += product.price * item.quantity
 
         new_order = Order(total_price=total_price, status=OrderStatus.PENDING)
@@ -34,7 +38,7 @@ def create_order(db: Session, order_data: OrderRequest) -> Order:
         db.refresh(new_order)
         return new_order
 
-    except InsufficientStockException as e:
+    except (InsufficientStockException, ProductIdException) as e:
         db.rollback()
         raise e
     except IntegrityError as e:

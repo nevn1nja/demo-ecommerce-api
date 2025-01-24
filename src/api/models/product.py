@@ -1,12 +1,14 @@
 from datetime import datetime
 from typing import List, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from src.api.models.pagination_metadata import PaginationMetadata
 
+
 class ProductId(BaseModel):
     id: int = Field(..., description="Unique identifier for the product")
+
 
 class ProductRequest(BaseModel):
     name: str = Field(..., min_length=1, max_length=255, description="The name of the product")
@@ -16,11 +18,9 @@ class ProductRequest(BaseModel):
 
 
 class Product(ProductRequest, ProductId):
+    model_config = ConfigDict(from_attributes=True, extra='allow')
     created_at: datetime = Field(..., description="Timestamp denoting when the product was created")
     updated_at: Optional[datetime] = Field(..., description="Timestamp denoting when the product was last updated")
-
-    class Config:
-        from_attributes = True
 
 
 class Products(BaseModel):
