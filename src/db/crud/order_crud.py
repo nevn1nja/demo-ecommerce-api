@@ -4,7 +4,8 @@ from sqlalchemy.orm import Session
 from src.api.models.order import OrderRequest
 from src.db.crud.product_crud import get_product_by_id
 from src.db.models.database_models import Order, OrderItem, OrderStatus
-from src.utils.exception_handlers import InsufficientStockException, OrderCreationException, ProductIdException
+from src.utils.exception_handlers import InsufficientStockException, OrderCreationException, ProductIdException, \
+    InvalidOrderQuantityException
 from src.utils.logger import logger
 
 
@@ -12,6 +13,8 @@ def create_order(db: Session, order_data: OrderRequest) -> Order:
     try:
         total_price = 0.0
         for item in order_data.items:
+            if item.quantity <= 0:
+                raise InvalidOrderQuantityException(f"Quantity must be greater than zero.")
             product = get_product_by_id(db, item.product_id)
             if product is None:
                 raise ProductIdException(f"Product ID '{item.product_id}' not found.")
@@ -38,7 +41,7 @@ def create_order(db: Session, order_data: OrderRequest) -> Order:
         db.refresh(new_order)
         return new_order
 
-    except (InsufficientStockException, ProductIdException) as e:
+    except (InsufficientStockException, ProductIdException, InvalidOrderQuantityException) as e:
         db.rollback()
         raise e
     except IntegrityError as e:

@@ -12,3 +12,11 @@ class ProductCreationException(Exception):
 
 class OrderCreationException(Exception):
     pass
+
+
+class EmptyItemsException(OrderCreationException):
+    pass
+
+
+class InvalidOrderQuantityException(OrderCreationException):
+    pass

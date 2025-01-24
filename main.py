@@ -9,7 +9,8 @@ from starlette.responses import JSONResponse
 
 from src.api.routes.orders import orders_router
 from src.api.routes.products import products_router
-from src.utils.exception_handlers import InsufficientStockException, ProductIdException
+from src.utils.exception_handlers import InsufficientStockException, ProductIdException, EmptyItemsException, \
+    InvalidOrderQuantityException
 from src.utils.logger import logger
 
 logger.info("Initializing fastapi application...")
@@ -34,6 +35,14 @@ async def insufficient_stock_exception_handler(request, exc: InsufficientStockEx
 
 @app.exception_handler(ProductIdException)
 async def insufficient_stock_exception_handler(request, exc: ProductIdException):
+    return JSONResponse(status_code=422, content={"detail": str(exc)}, )
+
+@app.exception_handler(EmptyItemsException)
+async def empty_order_items_exception_handler(request, exc: EmptyItemsException):
+    return JSONResponse(status_code=422, content={"detail": str(exc)}, )
+
+@app.exception_handler(InvalidOrderQuantityException)
+async def invalid_quantity_exception_handler(request, exc: InvalidOrderQuantityException):
     return JSONResponse(status_code=422, content={"detail": str(exc)}, )
 
 

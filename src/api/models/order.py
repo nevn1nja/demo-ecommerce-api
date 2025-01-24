@@ -1,8 +1,9 @@
 from typing import List
 
-from pydantic import BaseModel, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, model_validator
 
 from src.db.models.database_models import OrderStatus
+from src.utils.exception_handlers import EmptyItemsException
 
 
 class OrderId(BaseModel):
@@ -11,7 +12,7 @@ class OrderId(BaseModel):
 
 class OrderItem(BaseModel):
     product_id: int = Field(..., description="ID of the product being ordered")
-    quantity: int = Field(..., gt=0, description="Quantity of the product being ordered")
+    quantity: int = Field(..., description="Quantity of the product being ordered")
 
 
 class Order(OrderId):
@@ -23,3 +24,11 @@ class Order(OrderId):
 
 class OrderRequest(BaseModel):
     items: List[OrderItem] = Field(..., description="List of products in the order")
+
+    @model_validator(mode='before')
+    @classmethod
+    def check_items_not_empty(cls, values):
+        items = values.get('items')
+        if not items:
+            raise EmptyItemsException('Order must contain at least one item.')
+        return values
