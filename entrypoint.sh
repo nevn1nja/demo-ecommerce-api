@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [ "$DEBUG" = "True" ]; then
+    echo "checking the environment variables..."
+    printenv
+fi
+
 echo "Running Alembic migrations..."
 poetry run alembic upgrade head
 

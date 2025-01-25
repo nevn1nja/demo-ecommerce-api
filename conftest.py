@@ -12,13 +12,13 @@ from main import app
 from src.config.config_loader import Settings
 from src.db.base import get_db
 
-TEST_DB_FILE = "/tmp/test_ecommerce.db"
+TEST_DB_FILE = "test_ecommerce.db"
 TEST_SQLALCHEMY_DATABASE_URL = f"sqlite:///{TEST_DB_FILE}"
 
 engine = create_engine(TEST_SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-ALEMBIC_CONFIG_PATH = "/Users/nevil/Documents/GitHub/demo-ecommerce-api/alembic.ini"
+ALEMBIC_CONFIG_PATH = "alembic.ini"
 
 
 @pytest.fixture(scope="session", autouse=True)
@@ -35,7 +35,7 @@ def apply_migrations(mock_get_database_url):
     alembic_cfg = Config(ALEMBIC_CONFIG_PATH)
     alembic_cfg.set_main_option("sqlalchemy.url", TEST_SQLALCHEMY_DATABASE_URL)
     alembic_cfg.set_main_option("script_location",
-                                "/Users/nevil/Documents/GitHub/demo-ecommerce-api/alembic")  # Adjust if needed
+                                "alembic")  # Adjust if needed
 
     command.upgrade(alembic_cfg, "head")
     yield

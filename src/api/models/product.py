@@ -18,7 +18,7 @@ class ProductRequest(BaseModel):
 
 
 class Product(ProductRequest, ProductId):
-    model_config = ConfigDict(from_attributes=True, extra='allow')
+    model_config = ConfigDict(from_attributes=True, extra='ignore')
     created_at: datetime = Field(..., description="Timestamp denoting when the product was created")
     updated_at: Optional[datetime] = Field(..., description="Timestamp denoting when the product was last updated")
 
