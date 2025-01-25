@@ -16,7 +16,7 @@ class OrderItem(BaseModel):
 
 
 class Order(OrderId):
-    model_config = ConfigDict(from_attributes=True, extra='allow')
+    model_config = ConfigDict(from_attributes=True, extra='ignore')
     items: List[OrderItem] = Field(..., description="List of products in the order")
     total_price: float = Field(..., description="Total price of the order")
     status: OrderStatus = Field(..., description="Status of the order")

@@ -16,9 +16,9 @@ COPY pyproject.toml poetry.lock /app/
 RUN poetry config virtualenvs.create false && poetry install --no-root --no-interaction --no-ansi
 
 COPY . /app
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN sed -i 's/\r//' entrypoint.sh
+RUN chmod +x entrypoint.sh
 
 EXPOSE 8000
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "/app/entrypoint.sh"]
 
